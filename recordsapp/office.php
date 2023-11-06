@@ -48,7 +48,7 @@
     
     # create query
     if(strlen(($search)) > 0){
-        $query = 'SELECT * FROM office WHERE postal =' . $search . ' ORDER BY name LIMIT '. $page_first_result . ',' . $results_per_page;
+        $query = 'SELECT * FROM office WHERE name ="' . $search . '" ORDER BY name LIMIT '. $page_first_result . ',' . $results_per_page;
     }else{
         $query = 'SELECT * FROM office ORDER BY name LIMIT '. $page_first_result . ',' . $results_per_page;
     }
