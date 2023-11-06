@@ -122,6 +122,10 @@
                                                     <a href="employee-edit.php?id=<?php echo $x['id'] ?>">
                                                         <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
                                                     </a>
+                                                    <p>*</p>
+                                                    <a href="employee-delete.php?id=<?php echo $x['id'] ?>">
+                                                        <button type="submit" class="btn btn-warning btn-fill pull-right" onclick="return confirm('Delete this Row?')">Delete</button>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             <?php endforeach ?>
