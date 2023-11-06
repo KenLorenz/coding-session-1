@@ -24,6 +24,9 @@
     require('config/config.php');
     require('config/db.php');
     
+    //gets the value sent over search form
+    $search = $_GET['search'];
+
     //define total number of results you want per page
     $results_per_page = 10;
     $query = "SELECT * FROM employee";
@@ -44,8 +47,13 @@
     $page_first_result = ($page-1) * $results_per_page;
 
     # create query
-    $query = 'SELECT x.id, x.lastname, x.firstname, x.address, y.name as office_name FROM employee as x, office as y 
-    WHERE x.office_id = y.id LIMIT ' . $page_first_result . ',' . $results_per_page;
+    if(strlen($search) > 0){
+        $query = 'SELECT x.id, x.lastname, x.firstname, x.address, y.name as office_name FROM employee as x, office as y 
+        WHERE x.office_id = y.id and x.lastname ="' . $search . '" LIMIT ' . $page_first_result . ',' . $results_per_page;
+    }else{
+        $query = 'SELECT x.id, x.lastname, x.firstname, x.address, y.name as office_name FROM employee as x, office as y 
+        WHERE x.office_id = y.id LIMIT ' . $page_first_result . ',' . $results_per_page;    
+    }
     # get result
     $result = mysqli_query($conn, $query);
     # fetch data
@@ -79,6 +87,12 @@
                         <div class="col-md-12">
                             <div class="card strpied-tabled-with-hover">
                             <br/>
+                            <div class="col-md-12">
+                                <form action="employee.php" method="GET">
+                                    <input type="text" name="search">
+                                    <input type="submit" value="Search" class="btn btn-info bin-fill">
+                                </form>
+                            </div>
                                 <div class="col-md-12">
                                     <a href="/employee-add.php">
                                         <button type="submit" class="btn btn-info btn-fill pull-right">Add New Employee</button>
