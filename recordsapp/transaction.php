@@ -49,7 +49,7 @@
 
 
     # create query
-    if(strlen($search) > 0){
+    if(strlen($search) > 0){ #searcher
         $query = 'SELECT x.datelog, x.documentcode, x.action, y.name as office_name, CONCAT(z.lastname, ",", z.firstname) as employee, remarks from employee as z, office as y, transaction as x
         WHERE z.office_id = y.id AND x.employee_id = z.id and x.documentcode =' . $search . ' ORDER BY x.documentcode, x.datelog LIMIT '.$page_first_result . ',' . $results_per_page;
     }else{

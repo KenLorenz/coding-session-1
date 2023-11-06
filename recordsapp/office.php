@@ -97,6 +97,7 @@
                                             <th>City</th>
                                             <th>Country</th>
                                             <th>Postal</th>
+                                            <th>Options</th>
                                         </thead>
                                         <tbody>
                                             <?php foreach($offices as $x) : ?>
@@ -108,6 +109,9 @@
                                                 <td><?php echo $x['city']; ?></td>
                                                 <td><?php echo $x['country']; ?></td>
                                                 <td><?php echo $x['postal']; ?></td>
+                                                <td>
+                                                    
+                                                </td>
                                             </tr>
                                             <?php endforeach ?>
                                         </tbody>

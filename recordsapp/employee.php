@@ -44,7 +44,7 @@
     $page_first_result = ($page-1) * $results_per_page;
 
     # create query
-    $query = 'SELECT x.lastname, x.firstname, x.address, y.name as office_name FROM employee as x, office as y 
+    $query = 'SELECT x.id, x.lastname, x.firstname, x.address, y.name as office_name FROM employee as x, office as y 
     WHERE x.office_id = y.id LIMIT ' . $page_first_result . ',' . $results_per_page;
     # get result
     $result = mysqli_query($conn, $query);
@@ -95,7 +95,7 @@
                                             <th>First Name</th>
                                             <th>Address</th>
                                             <th>Office</th>
-                                            
+                                            <th>Options</th>
                                         </thead>
                                         <tbody>
                                             <?php foreach($employees as $x) : ?>
@@ -104,6 +104,11 @@
                                                 <td><?php echo $x['firstname']; ?></td>
                                                 <td><?php echo $x['address']; ?></td>
                                                 <td><?php echo $x['office_name']; ?></td>
+                                                <td>
+                                                    <a href="employee-edit.php?id=<?php echo $x['id'] ?>">
+                                                        <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
+                                                    </a>
+                                                </td>
                                             </tr>
                                             <?php endforeach ?>
                                         </tbody>
