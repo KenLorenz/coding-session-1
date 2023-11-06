@@ -50,10 +50,10 @@
 
     # create query
     if(strlen($search) > 0){ #searcher
-        $query = 'SELECT x.datelog, x.documentcode, x.action, y.name as office_name, CONCAT(z.lastname, ",", z.firstname) as employee, remarks from employee as z, office as y, transaction as x
+        $query = 'SELECT x.id, x.datelog, x.documentcode, x.action, y.name as office_name, CONCAT(z.lastname, ",", z.firstname) as employee, remarks from employee as z, office as y, transaction as x
         WHERE z.office_id = y.id AND x.employee_id = z.id and x.documentcode =' . $search . ' ORDER BY x.documentcode, x.datelog LIMIT '.$page_first_result . ',' . $results_per_page;
     }else{
-        $query = 'SELECT x.datelog, x.documentcode, x.action, y.name as office_name, CONCAT(z.lastname, ",", z.firstname) as employee, remarks from employee as z, office as y, transaction as x
+        $query = 'SELECT x.id, x.datelog, x.documentcode, x.action, y.name as office_name, CONCAT(z.lastname, ",", z.firstname) as employee, remarks from employee as z, office as y, transaction as x
         WHERE z.office_id = y.id AND x.employee_id = z.id ORDER BY x.documentcode, x.datelog LIMIT '.$page_first_result . ',' . $results_per_page;    
     }
     /* $query = 'SELECT x.datelog, x.documentcode, x.action, y.name as office_name, CONCAT(z.lastname, ",", z.firstname) as employee, remarks from employee as z, office as y, transaction as x
@@ -116,6 +116,7 @@
                                             <th>Office Name</th>
                                             <th>Employee</th>
                                             <th>Remarks</th>
+                                            <th>Options</th>
                                             
                                         </thead>
                                         <tbody>
@@ -127,6 +128,11 @@
                                                 <td><?php echo $x['office_name']; ?></td>
                                                 <td><?php echo $x['employee']; ?></td>
                                                 <td><?php echo $x['remarks']; ?></td>
+                                                <td>
+                                                    <a href="transaction-edit.php?id=<?php echo $x['id']?>">
+                                                    <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
+                                                    </a>
+                                                </td>
                                             </tr>
                                             <?php endforeach ?>
                                         </tbody>
