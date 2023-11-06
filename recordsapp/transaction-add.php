@@ -37,15 +37,16 @@
     // check if submitted
     if(isset($_POST['submit'])){
         // Get form data
-        $fname = mysqli_real_escape_string($conn,$_POST['fname']);
-        $lname = mysqli_real_escape_string($conn,$_POST['lname']);
+        $documentcode = mysqli_real_escape_string($conn,$_POST['documentcode']);
+        $action = mysqli_real_escape_string($conn,$_POST['action']);
+        $remarks = mysqli_real_escape_string($conn,$_POST['remarks']);
+        $employee_id = mysqli_real_escape_string($conn,$_POST['employee_id']);
         $office_id = mysqli_real_escape_string($conn,$_POST['office_id']);
-        $address = mysqli_real_escape_string($conn,$_POST['address']);
         
         // Create insert query
-        $query = "INSERT INTO employee(lastname, firstname, office_id, address)
-        VALUES('$lname', '$fname', '$office_id', '$address')";
-        
+        $query = "INSERT INTO transaction(documentcode, action, remarks, employee_id, office_id)
+        VALUES('$documentcode', '$action', '$remarks', '$employee_id', '$office_id')";
+
         // Execute query    
         if(mysqli_query($conn, $query)){
         }else{
@@ -70,16 +71,44 @@
                                         <div class="row">
                                             <div class="col-md-3 pr-1">
                                                 <div class="form-group">
-                                                    <label>First Name</label>
-                                                    <input type="text" class="form-control" name="fname">
+                                                    <label>Document Code</label>
+                                                    <input type="text" class="form-control" name="documentcode">
                                                 </div>
                                             </div>
                                             <div class="col-md-3 px-1">
                                                 <div class="form-group">
-                                                    <label>Last Name</label>
-                                                    <input type="text" class="form-control" name="lname">
+                                                    <label>Action</label>
+                                                    <select class="form-control" name="action">
+                                                        <option>IN</option>
+                                                        <option>OUT</option>
+                                                        <option>COMPLETE</option>
+                                                    </select>
                                                 </div>
                                             </div>
+                                            <div class="col-md-3 pr-1">
+                                                <div class="form-group">
+                                                    <label>Remarks</label>
+                                                    <input type="text" class="form-control" name="remarks">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pl-1">
+                                                <div class="form-group">
+                                                    <label for="employee_id">Employee</label>
+                                                    <select class="form-control" name="employee_id">
+                                                    <option>Select</option>
+                                                    <?php
+                                                    $query = "SELECT id, CONCAT(lastname, ' ', firstname) as 'name' FROM employee";
+                                                    $result = mysqli_query($conn, $query);
+                                                    while($row = mysqli_fetch_array($result)){
+                                                        echo "<option value=". $row['id'] . ">" . $row['name'] . '</option>';
+                                                    }
+
+                                                    ?>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+
                                             <div class="col-md-3 pl-1">
                                                 <div class="form-group">
                                                     <label for="office_id">Office</label>
@@ -99,15 +128,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label>Address / Building</label>
-                                                    <input type="text" class="form-control" name="address">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
 
                                         <button type="submit" name="submit" value="Submit" class="btn btn-info btn-fill pull-right">Save</button>
                                         <div class="clearfix"></div>

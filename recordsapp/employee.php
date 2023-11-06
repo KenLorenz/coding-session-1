@@ -24,8 +24,28 @@
     require('config/config.php');
     require('config/db.php');
     
+    //define total number of results you want per page
+    $results_per_page = 10;
+    $query = "SELECT * FROM employee";
+    $result = mysqli_query($conn, $query);
+    $number_of_result = mysqli_num_rows($result);
+
+    //determine the total number of pages available
+    $number_of_page = ceil($number_of_result / $results_per_page);
+
+    //determine which page number is currently on
+    if(!isset($_GET['page'])){
+        $page = 1;
+    }else{
+        $page = $_GET['page'];
+    }
+
+    // determine the sql LIMIT starting number for the results on the display page
+    $page_first_result = ($page-1) * $results_per_page;
+
     # create query
-    $query = 'SELECT x.lastname, x.firstname, x.address, y.name as office_name FROM employee as x, office as y WHERE x.office_id = y.id';
+    $query = 'SELECT x.lastname, x.firstname, x.address, y.name as office_name FROM employee as x, office as y 
+    WHERE x.office_id = y.id LIMIT ' . $page_first_result . ',' . $results_per_page;
     # get result
     $result = mysqli_query($conn, $query);
     # fetch data
@@ -58,9 +78,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card strpied-tabled-with-hover">
+                            <br/>
+                                <div class="col-md-12">
+                                    <a href="/employee-add.php">
+                                        <button type="submit" class="btn btn-info btn-fill pull-right">Add New Employee</button>
+                                    </a>
+                                </div>
                                 <div class="card-header ">
-                                    <h4 class="card-title">Striped Table with Hover</h4>
-                                    <p class="card-category">Here is a subtitle for this table</p>
+                                    <h4 class="card-title">Employees</h4>
+                                    <p class="card-category">Table for employees</p>
                                 </div>
                                 <div class="card-body table-full-width table-responsive">
                                     <table class="table table-hover table-striped">
@@ -85,7 +111,10 @@
                                 </div>
                             </div>
                         </div>
-
+                        <?php
+                        for($page = 1; $page <= $number_of_page; $page++){
+                            echo '<a href="employee.php?page='. $page . '">' . $page . '</a>';
+                        }?>
                     </div>
                 </div>
             </div>
