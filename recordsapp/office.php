@@ -110,7 +110,9 @@
                                                 <td><?php echo $x['country']; ?></td>
                                                 <td><?php echo $x['postal']; ?></td>
                                                 <td>
-                                                    
+                                                    <a href="office-edit.php?id=<?php echo $x['id'] ?>">
+                                                        <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             <?php endforeach ?>

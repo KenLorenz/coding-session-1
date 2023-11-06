@@ -22,8 +22,26 @@
 
 <?php
 
+require('config/config.php');
+require('config/db.php');
 
+$id = $_GET['id'];
 
+$query = "SELECT * FROM office WHERE id=" . $id;
+
+$result = mysqli_query($conn, $query);
+
+if(mysqli_num_rows($result)==1){
+    //fetch them datas
+    $office = mysqli_fetch_array($result);
+    $name = $office['name'];
+    $contactnum = $office['contactnum'];
+    $email = $office['email'];
+    $address = $office['address'];
+    $city = $office['city'];
+    $country = $office['country'];
+    $postal = $office['postal'];
+}
 ?>
     <div class="wrapper">
         <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
@@ -51,9 +69,9 @@
         $country = mysqli_real_escape_string($conn,$_POST['country']);
         $postal = mysqli_real_escape_string($conn,$_POST['postal']);
         // Create insert query
-        $query = "INSERT INTO office(name, contactnum, email, address, city, country, postal)
-        VALUES('$name', '$contactnum', '$email', '$address', '$city', '$country', '$postal')";
-        // echo $query;
+        $query = "UPDATE office SET name='$name', contactnum='$contactnum', email='$email', address='$address', city='$city', country='$country', postal='$postal'
+        WHERE id=" . $id;
+
         // Execute query    
         if(mysqli_query($conn, $query)){
         }else{
@@ -79,19 +97,19 @@
                                             <div class="col-md-5 pr-1">
                                                 <div class="form-group">
                                                     <label>Office Name</label>
-                                                    <input type="text" class="form-control" name="name">
+                                                    <input type="text" class="form-control" name="name" value="<?php echo $name ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-3 px-1">
                                                 <div class="form-group">
                                                     <label>Contact Number</label>
-                                                    <input type="text" class="form-control" name="contactnum">
+                                                    <input type="text" class="form-control" name="contactnum" value="<?php echo $contactnum ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pl-1">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Email address</label>
-                                                    <input type="email" class="form-control" name="email">
+                                                    <input type="email" class="form-control" name="email" value="<?php echo $email ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -99,13 +117,13 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Address / Building</label>
-                                                    <input type="text" class="form-control" name="address">
+                                                    <input type="text" class="form-control" name="address" value="<?php echo $address ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pl-1">
                                                 <div class="form-group">
                                                     <label>City</label>
-                                                    <input type="text" class="form-control" name="city">
+                                                    <input type="text" class="form-control" name="city" value="<?php echo $city ?>">
                                                 </div>
                                             </div>
                                         <!-- </div>
@@ -113,7 +131,7 @@
                                             <div class="col-md-4 pl-1">
                                                 <div class="form-group">
                                                     <label>Country</label>
-                                                    <input type="text" class="form-control" name="country">
+                                                    <input type="text" class="form-control" name="country" value="<?php echo $country ?>">
                                                 </div>
                                             </div>
                                         <!-- </div>
@@ -121,7 +139,7 @@
                                             <div class="col-md-4 pr-1">
                                                 <div class="form-group">
                                                     <label>Postal Code</label>
-                                                    <input type="text" class="form-control" name="postal">
+                                                    <input type="text" class="form-control" name="postal" value="<?php echo $postal ?>">
                                                 </div>
                                             </div>
                                         </div>
