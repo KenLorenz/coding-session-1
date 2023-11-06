@@ -24,6 +24,8 @@
     require('config/config.php');
     require('config/db.php');
 
+    //gets the value sent over search form
+    $search = $_GET['search'];
 
     //define total number of results you want per page
     $results_per_page = 10;
@@ -47,8 +49,15 @@
 
 
     # create query
-    $query = 'SELECT x.datelog, x.documentcode, x.action, y.name as office_name, CONCAT(z.lastname, ",", z.firstname) as employee, remarks from employee as z, office as y, transaction as x
-    WHERE z.office_id = y.id AND x.employee_id = z.id LIMIT '.$page_first_result . ',' . $results_per_page;
+    if(strlen($search) > 0){
+        $query = 'SELECT x.datelog, x.documentcode, x.action, y.name as office_name, CONCAT(z.lastname, ",", z.firstname) as employee, remarks from employee as z, office as y, transaction as x
+        WHERE z.office_id = y.id AND x.employee_id = z.id and x.documentcode =' . $search . ' ORDER BY x.documentcode, x.datelog LIMIT '.$page_first_result . ',' . $results_per_page;
+    }else{
+        $query = 'SELECT x.datelog, x.documentcode, x.action, y.name as office_name, CONCAT(z.lastname, ",", z.firstname) as employee, remarks from employee as z, office as y, transaction as x
+        WHERE z.office_id = y.id AND x.employee_id = z.id ORDER BY x.documentcode, x.datelog LIMIT '.$page_first_result . ',' . $results_per_page;    
+    }
+    /* $query = 'SELECT x.datelog, x.documentcode, x.action, y.name as office_name, CONCAT(z.lastname, ",", z.firstname) as employee, remarks from employee as z, office as y, transaction as x
+    WHERE z.office_id = y.id AND x.employee_id = z.id LIMIT '.$page_first_result . ',' . $results_per_page; */
     
     # get result
     $result = mysqli_query($conn, $query);
@@ -83,6 +92,12 @@
                         <div class="col-md-12">
                             <div class="card strpied-tabled-with-hover">
                                 <br/>
+                                <div class="col-md-12">
+                                    <form action="transaction.php" method="GET">
+                                        <input type="text" name="search">
+                                        <input type="submit" value="Search" class="btn btn-info bin-fill">
+                                    </form>
+                                </div>
                                 <div class="col-md-12">
                                     <a href="/transaction-add.php">
                                         <button type="submit" class="btn btn-info btn-fill pull-right">Add New Transaction</button>
