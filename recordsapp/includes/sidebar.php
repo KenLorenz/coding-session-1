@@ -25,7 +25,7 @@
                     <li class="nav-item active active-pro">
                         <a class="nav-link active" href="javascript:;">
                             <i class="nc-icon nc-single-02"></i>
-                            <p>Upgrade Plan/p>
+                            <p>Upgrade Plan</p>
                         </a>
                     </li>
                 </ul>
