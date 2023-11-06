@@ -25,7 +25,7 @@
     require('config/db.php');
     
     # create query
-    $query = 'SELECT x.datelog, x.documentcode, x.action, y.name as office_name, CONCAT(z.lastname, ",", z.firstname) as employee from employee as z, office as y, transaction as x
+    $query = 'SELECT x.datelog, x.documentcode, x.action, y.name as office_name, CONCAT(z.lastname, ",", z.firstname) as employee, remarks from employee as z, office as y, transaction as x
     WHERE z.office_id = y.id AND x.employee_id = z.id';
     
     # get result
@@ -72,6 +72,7 @@
                                             <th>Action</th>
                                             <th>Office Name</th>
                                             <th>Employee</th>
+                                            <th>Remarks</th>
                                             
                                         </thead>
                                         <tbody>
@@ -82,6 +83,7 @@
                                                 <td><?php echo $x['action']; ?></td>
                                                 <td><?php echo $x['office_name']; ?></td>
                                                 <td><?php echo $x['employee']; ?></td>
+                                                <td><?php echo $x['remarks']; ?></td>
                                             </tr>
                                             <?php endforeach ?>
                                         </tbody>
