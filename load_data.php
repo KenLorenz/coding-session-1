@@ -34,15 +34,10 @@ for($i = 1 ;$i <= 500; $i++){
 
 
     $test = mysqli_query($conn, $sql); # since mysql hates some faker generation, we let iteration rerun.
-    /* try{
-        $test = mysqli_query($conn, $sql); # since mysql hates some faker generation, we let iteration rerun.
-    } catch(Exception $e){
-        $i--;
-    } */
 }
 
 # employee
-/* for($i = 1 ;$i <= 200; $i++){
+for($i = 1 ;$i <= 200; $i++){
     $query = "SELECT id from office order by id desc LIMIT 1";
     $result = mysqli_query($conn, $query);
 
@@ -58,10 +53,10 @@ for($i = 1 ;$i <= 500; $i++){
     } catch(Exception $e){
         $i--;
     }
-} */
+}
 
 # office
-/*
+
 for($i = 1 ;$i <= 50; $i++){
     $sql = "INSERT INTO recordsapp_db.office(`name`,`contactnum`,`email`,`address`,`city`,`country`,`postal`) VALUES('$faker->company','$faker->phoneNumber','$faker->email','$faker->address','$faker->city','$faker->country','$faker->postcode');";
 
@@ -70,7 +65,7 @@ for($i = 1 ;$i <= 50; $i++){
     } catch(Exception $e){
         $i--;
     }
-}*/
+}
 
 mysqli_close($conn);
 
