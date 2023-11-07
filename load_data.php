@@ -30,7 +30,7 @@ for($i = 1 ;$i <= 500; $i++){
         $off = $faker->numberBetween($min = 1, $x['id']);
     }
 
-    $sql = "INSERT INTO recordsapp_db.transaction(`employee_id`,`office_id`,`datelog`,`action`,`remarks`,`documentcode`) VALUES('$emp','$off','$newtime','$faker->randomElement(['IN','OUT','COMPLETE'])','$faker->word','$faker->numberBetween($min = 100, $max = 400)');";
+    $sql = "INSERT INTO recordsapp_db.transaction(`employee_id`,`office_id`,`datelog`,`action`,`remarks`,`documentcode`) VALUES('$emp','$off','$newtime','".$faker->randomElement(['IN','OUT','COMPLETE'])."','$faker->word','$faker->numberBetween($min = 100, $max = 400)');";
 
 
     $test = mysqli_query($conn, $sql); # since mysql hates some faker generation, we let iteration rerun.
