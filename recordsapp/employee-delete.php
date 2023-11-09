@@ -11,8 +11,7 @@ if(mysqli_query($conn, $query)){
     echo 'ERROR: '.mysqli_error($conn);
 }
 
-# will do later
-# moves transations employee_id that had the deleted employee
+
 
 
 header("Location:index.php");
