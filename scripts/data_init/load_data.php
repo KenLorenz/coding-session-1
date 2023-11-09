@@ -1,11 +1,17 @@
 <?php
 
 require ('scripts/data_init/vendor/autoload.php');
-require ('config/config.php');
+
+define('ROOT_URL','http://localhost/recordsapp/');
+define('DB_HOST', 'localhost');
+define('DB_USER', 'ren');
+define('DB_PASS', '122846');
+define('DB_NAME', 'recordsapp_db');
+define('DB_PORT', '3307');
 
 $faker = Faker\Factory::create('en_PH');
 
-$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_PASS, 3307);
+$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 
 function iteration_reset($conn): void{ # likely to delete
     foreach (['office','employee','transaction'] as $x){
@@ -15,13 +21,13 @@ function iteration_reset($conn): void{ # likely to delete
 }
 
 function faker_office($faker,$conn): void {
-    for($i = 1 ;$i <= 50; $i++){
+    for($i = 1 ;$i <= 10; $i++){ # 50
         $sql = "INSERT INTO recordsapp_db.office(`name`,`contactnum`,`email`,`address`,`city`,`country`,`postal`) VALUES
         ('$faker->company','$faker->phoneNumber','$faker->email','$faker->address','$faker->city','$faker->country','$faker->postcode');";
     
         try{
             mysqli_query($conn, $sql); # since mysql hates some faker generation, we let iteration rerun.
-        } catch(Exception $e){
+        }catch(Exception){
             $i--;
         }
     }
@@ -29,16 +35,19 @@ function faker_office($faker,$conn): void {
 }
 
 function faker_employee($faker,$conn): void {
-    for($i = 1 ;$i <= 200; $i++){
-        $query = "SELECT id from office order by id desc LIMIT 1";
-        $result = $conn -> query($conn, $query);
-    
-        while($x = $conn -> fetch_array($result)){
-            $off = $faker->numberBetween($min = 1, $x['id']);
+    for($i = 1 ;$i <= 200; $i++){ # 200
+
+        $query = "SELECT id from office order by id asc";
+        $result = mysqli_query($conn, $query);
+        $off = [];
+        
+        while($x = mysqli_fetch_column($result, 0)){
+            array_push($off, $x);
         }
-    
+
+        $random_office_id = $faker->numberBetween($min = 0, $max = count($off) - 1);
         $sql = "INSERT INTO recordsapp_db.employee(`lastName`,`firstName`,`office_id`,`address`) VALUES
-        ('$faker->lastName','$faker->firstName','$off','$faker->address');";
+        ('$faker->lastName','$faker->firstName','$off[$random_office_id]','$faker->address');";
     
         try{
             mysqli_query($conn, $sql); # since mysql hates some faker generation, we let iteration rerun.
@@ -49,7 +58,7 @@ function faker_employee($faker,$conn): void {
 }
 
 function faker_transaction($faker,$conn): void {
-    for($i = 1 ;$i <= 500; $i++){
+    for($i = 1 ;$i <= 500; $i++){ # 500
         $newtime = $faker->dateTime($max = 'now', $timezone = null);
         $newtime = $newtime->format('Y-m-d H:i:s');
         
@@ -76,10 +85,9 @@ function faker_transaction($faker,$conn): void {
     }
 }
 #iteration_reset($conn); # temporary
-faker_office($faker,$conn);
+#faker_office($faker,$conn);
 faker_employee($faker,$conn);
 #faker_transaction($faker,$conn);
 
 mysqli_close($conn);
 
-?>
