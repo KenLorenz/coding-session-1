@@ -12,4 +12,3 @@ if(mysqli_query($conn, $query)){
 }
 
 header("Location:index.php");
-?>
