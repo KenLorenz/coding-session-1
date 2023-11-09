@@ -22,7 +22,7 @@ function faker_office($faker,$conn): void {
     
         try{
             mysqli_query($conn, $sql); # since mysql hates some faker generation, we let iteration rerun.
-        }catch(Exception){
+        }catch(Exception $e){
             $i--;
         }
     }
@@ -90,7 +90,7 @@ function faker_transaction($faker,$conn): void {
         ('$employee_id[$random_employee_id]','$office_id[$random_office_id]','$newtime','".$faker->randomElement(['IN','OUT','COMPLETE'])."','$faker->word','$faker->numberBetween($min = 100, $max = 400)');";
     
     
-        mysqli_query($conn, $sql); # since mysql hates some faker generation, we let iteration rerun.
+        mysqli_query($conn, $sql);
     }
 }
 
