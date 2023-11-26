@@ -91,8 +91,7 @@ if(mysqli_num_rows($result)==1){
                                 <div class="card-header">
                                     <h4 class="card-title">Edit Profile</h4>
                                 </div>
-                                <div class="card-body">
-                                    <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>">
+2                                    <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>">
                                         <div class="row">
                                             <div class="col-md-5 pr-1">
                                                 <div class="form-group">
